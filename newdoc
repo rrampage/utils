@@ -1,0 +1,30 @@
+#!/bin/bash
+# Select a file from templates directory, copy to current directory and open using preferred application
+if [ -z $TEMPLATES ]; then
+       TEMPLATES=$HOME/Templates
+fi
+if [ $# -eq 0 ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+        echo 'newdoc is a script to open the template in your $TEMPLATES directory from commandline'
+        echo "Usage: newdoc template_name"
+        exit
+fi
+if [ -z $2 ]; then
+        FNAME=$1
+else
+        FNAME=$2
+fi
+# If the file already exists, just open it using default application
+if [ -f $FNAME ]; then
+        xdg-open $FNAME &
+        exit
+fi
+# If file does not exist and there is a template. copy to current directory and open with default app  
+TEMP_FILE="$TEMPLATES""/""$1"
+if [ ! -f $TEMP_FILE ]; then
+        echo "No template found called $TEMP_FILE does not exist"
+        exit
+else
+        cp $TEMP_FILE $FNAME
+        xdg-open $FNAME &
+        exit
+fi
