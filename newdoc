@@ -4,8 +4,18 @@ if [ -z $TEMPLATES ]; then
        TEMPLATES=$HOME/Templates
 fi
 if [ $# -eq 0 ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
-        echo 'newdoc is a script to open the template in your $TEMPLATES directory from commandline'
-        echo "Usage: newdoc template_name"
+        echo 'newdoc opens a template file from your $TEMPLATES directory and saves it to current directory with a specified name'
+        echo 'If no name is given, the name of the template is used. If the file already exists in your directory, it opens that file without any modifications'
+        echo "Usage: newdoc template_name file_name"
+        echo 'Example: `newdoc log.txt mylog.txt` creates a file called mylog.txt which is copy of log.txt'
+        echo "Options:"
+        echo '  -h or --help : Display this message'
+        echo '  -l or --list : List all available template files'
+        exit
+fi
+if [ "$1" = "-l" ] || [ "$1" = "--list" ]; then
+        echo "Available templates in $TEMPLATES are: "
+        ls -1 $TEMPLATES | nl
         exit
 fi
 if [ -z $2 ]; then
